@@ -404,7 +404,7 @@ class Lookup(Stage):
             statement = {
                 "$lookup":{
                     "from":self.right,
-                    "localField":self.right_on,
+                    "localField":self.left_on,
                     "foreignField":self.right_on,
                     "let":self.let,
                     "pipeline":self.pipeline,
