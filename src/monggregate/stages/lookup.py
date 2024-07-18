@@ -360,7 +360,7 @@ class Lookup(Stage):
 
             type_ = "correlated"
 
-        elif not let and pipeline is not None:
+        elif let and not (left_on or right_on) and pipeline is not None:
                         # in a subquery to select all on the foreign collection
                         # pipeline can be an empty list which is falsy
             type_ =  "uncorrelated"
