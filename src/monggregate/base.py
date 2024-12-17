@@ -13,10 +13,7 @@ from typing_extensions import Self
 
 # 3rd Party imports
 # ---------------------------
-try:
-    import pydantic.v1 as pyd
-except ModuleNotFoundError:
-    import pydantic as pyd # type: ignore[no-redef]
+import pydantic as pyd
 
     
 from humps.main import camelize
@@ -59,13 +56,10 @@ class BaseModel(pyd.BaseModel, ABC):
 
         return self.to_expression()
 
-    class Config(pyd.BaseConfig):
-        """Base configuration for classes inheriting from this"""
-
-        allow_population_by_field_name = True
-        underscore_attrs_are_private = True
-        smart_union = True
-        alias_generator = camelize
+    model_config = pyd.ConfigDict(
+        populate_by_name=True,
+        alias_generator=camelize,
+    )
 
 
 def isbasemodel(instance:Any)->TypeGuard[BaseModel]:

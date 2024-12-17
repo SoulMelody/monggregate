@@ -72,7 +72,7 @@ from datetime import datetime
 from monggregate.base import Expression
 from monggregate.search.operators.operator import SearchOperator
 
-class Equals(SearchOperator, smart_union=True):
+class Equals(SearchOperator):
     """
     Creates an equals operation statement in an Atlas Search query.
 

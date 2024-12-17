@@ -3,6 +3,7 @@
 # Standard Library Imports
 # -------------------------------------------
 import re
+from typing import Annotated
 
 # 3rd Party imports
 # -------------------------------------------
@@ -11,20 +12,14 @@ from monggregate.base import pyd
 
 # Types definition
 # -------------------------------------------
-class FieldName(pyd.ConstrainedStr):
-    """Regex describing syntax for field names"""
+"""Regex describing syntax for field names"""
+FieldName = Annotated[str, pyd.types.StringConstraints(pattern=re.compile(r"^[^\$][^\.]+$"))]
 
-    regex = re.compile(r"^[^\$][^\.]+$")
+"""Regex describing syntax of a field path"""
+FieldPath = Annotated[str, pyd.types.StringConstraints(pattern=re.compile(r"^\$"))]
 
-class FieldPath(pyd.ConstrainedStr):
-    """Regex describing syntax of a field path"""
-
-    regex = re.compile(r"^\$")
-
-class Variable(FieldPath):
-    """Regex describing reference to a variable in expressions"""
-
-    regex = re.compile(r"^\$\$")
+"""Regex describing reference to a variable in expressions"""
+Variable = Annotated[str, pyd.types.StringConstraints(pattern=re.compile(r"^\$\$"))]
 
 # Variables. Accessed as a string with a $$ prefix followed by the fixed name and falling into three sub-categories:
 

@@ -167,7 +167,7 @@ The following limitations apply:
 
 from datetime import datetime
 from typing import Any, Callable, Literal
-from typing_extensions import Self
+from typing_extensions import Self, TypeAlias
 
 from monggregate.base import BaseModel, pyd, Expression
 from monggregate.fields import FieldName
@@ -193,13 +193,13 @@ FacetType = Literal['string', 'number', 'date']
 
 # Strings
 # ----------------------------------------------
-class FacetName(FieldName):
-    """
-    Subclass of FieldName to represent a facet name
-    
-    Facets should refer to collctions fields that are indexed as facet fields.
+FacetName: TypeAlias = FieldName
+"""
+Subclass of FieldName to represent a facet name
 
-    """
+Facets should refer to collctions fields that are indexed as facet fields.
+
+"""
 
 # Results
 # ----------------------------------------------
@@ -242,7 +242,6 @@ class FacetDefinition(BaseModel):
 
     path : str
     name : FacetName = ""
-    
 
     @pyd.validator('name', pre=True, always=True)
     def set_name(cls, name: str, values:dict[str,str]) -> FacetName:

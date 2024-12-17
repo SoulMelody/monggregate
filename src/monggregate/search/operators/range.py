@@ -71,7 +71,7 @@ from datetime import datetime
 from monggregate.base import pyd, Expression
 from monggregate.search.operators.operator import SearchOperator
 
-class Range(SearchOperator, smart_union=True):
+class Range(SearchOperator):
     """
     Creates a range operator for MongoDB Atlas Search query.
 
