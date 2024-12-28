@@ -49,8 +49,10 @@ If the name of a field repeats in the array,
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.array.array import ArrayOperator
+
 
 class ArrayToObject(ArrayOperator):
     """
@@ -85,20 +87,18 @@ class ArrayToObject(ArrayOperator):
         >>> { $arrayToObject: <expression> }
 
     The <expression> can be any valid expression that that resolves to an array of two-element arrays or array of documents that contains "k" and "v" fields.
-    
+
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/arrayToObject/#mongodb-expression-exp.-arrayToObject)
     """
 
-    operand : Any
-
+    operand: Any
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$arrayToObject" : self.operand
-        })
+        return self.express({"$arrayToObject": self.operand})
 
-def array_to_object(operand:Any)->ArrayToObject:
+
+def array_to_object(operand: Any) -> ArrayToObject:
     """Returns a $arrayToObject operator"""
 
     return ArrayToObject(operand=operand)

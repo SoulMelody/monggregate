@@ -37,6 +37,7 @@ See example : https://www.mongodb.com/docs/manual/reference/operator/aggregation
 from monggregate.base import Expression
 from monggregate.stages.stage import Stage
 
+
 class Set(Stage):
     """
     Abstration of MongoDB $set statement that adds new fields to documents.
@@ -45,18 +46,18 @@ class Set(Stage):
     -----------
         - statement, dict :
         - document, dict : new fields to be added
-    
+
     Online MongoDB documentation:
     -----------------------------
     Adds new fields to documents. set outputs documents that contain all existing fields from the inputs documents and newly added fields. Both stages are equivalent to a project stage that explicitly specifies all existing fields in the inputs documents and adds the new fields.
-    
+
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/set/#mongodb-pipeline-pipe.-set
     """
 
-    document : dict = {} #| None
+    document: dict = {}  # | None
 
     @property
-    def expression(self)->Expression:
+    def expression(self) -> Expression:
         """Generates set stage statement from arguments"""
 
-        return  self.express({"$set":self.document})
+        return self.express({"$set": self.document})

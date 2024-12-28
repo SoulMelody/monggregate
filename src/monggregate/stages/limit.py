@@ -51,8 +51,9 @@ See the following for more information on each:
 
 """
 
-from monggregate.base import pyd, Expression    
+from monggregate.base import Expression, pyd
 from monggregate.stages.stage import Stage
+
 
 class Limit(Stage):
     """
@@ -67,7 +68,7 @@ class Limit(Stage):
     Online MongoDB documentation:
     -----------------------------
     Limits the number of documents passed to the next stage in the pipeline.
-    
+
     $limit takes a positive integer that specifies the maximum number of documents to pass along.
 
     NOTE : Starting in MongoDB 5.0, the $limit pipeline aggregation has a 64-bit integer limit. Values
@@ -75,12 +76,9 @@ class Limit(Stage):
 
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/#mongodb-pipeline-pipe.-group
     """
-    
-    value : int = pyd.Field(gt=0)
+
+    value: int = pyd.Field(gt=0)
 
     @property
-    def expression(self)->Expression:
-
-        return self.express({
-            "$limit" : self.value
-        })
+    def expression(self) -> Expression:
+        return self.express({"$limit": self.value})

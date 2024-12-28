@@ -35,8 +35,9 @@ where myCount would be the output field that contains the count. You can specify
 """
 
 from monggregate.base import Expression
-from monggregate.stages.stage import Stage
 from monggregate.fields import FieldName
+from monggregate.stages.stage import Stage
+
 
 class Count(Stage):
     """
@@ -47,7 +48,7 @@ class Count(Stage):
     - name, str : name of the output field which the count as its value.
                   Must be a non-empty string, must not start with $, and must not contain the . character.
 
-                  
+
     Online MongoDB documentation:
     -----------------------------
     Passes a document to the next stage that contains a count of the number of documents input to the stage.
@@ -57,7 +58,7 @@ class Count(Stage):
 
     <string> is the name of the output field which has the count as its value.
     <string> must be a non-empty string, must not start with $ and must not contain the . character.
-    
+
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/count/#mongodb-pipeline-pipe.-count
     """
 
@@ -65,6 +66,4 @@ class Count(Stage):
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$count": self.name
-        })
+        return self.express({"$count": self.name})

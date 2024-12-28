@@ -45,12 +45,14 @@ Behavior
 """
 
 from typing import Any
-from monggregate.base import pyd, Expression
+
+from monggregate.base import Expression, pyd
 from monggregate.operators.array.array import ArrayOperator
+
 
 class MaxN(ArrayOperator):
     """
-    Abstraction of MongoDB $maxN operator which returns the n largest 
+    Abstraction of MongoDB $maxN operator which returns the n largest
     values in an array.
 
     Attributes
@@ -66,22 +68,15 @@ class MaxN(ArrayOperator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/maxN-array-element/#mongodb-expression-exp.-maxN)
     """
 
-    operand : Any = pyd.Field(alias="input")
-    limit : Any = pyd.Field(1, alias="n")
+    operand: Any = pyd.Field(alias="input")
+    limit: Any = pyd.Field(1, alias="n")
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$maxN" : {
-                "n" : self.limit,
-                "input" : self.operand
-            }
-        })
+        return self.express({"$maxN": {"n": self.limit, "input": self.operand}})
 
-def max_n(operand:Any, limit:Any=1)->MaxN:
+
+def max_n(operand: Any, limit: Any = 1) -> MaxN:
     """Returns a $maxN operator"""
 
-    return MaxN(
-        operand=operand,
-        limit = limit
-    )
+    return MaxN(operand=operand, limit=limit)

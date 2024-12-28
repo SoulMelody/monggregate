@@ -86,8 +86,10 @@ In the other supported stages:
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.accumulators.accumulator import Accumulator
+
 
 class Sum(Accumulator):
     """
@@ -97,7 +99,7 @@ class Sum(Accumulator):
     -----------------------
         - operands, list[Expression] : Any valid list of expressions
         - operand, Any :Any valid expression
-        
+
     Online MongoDB documentation
     ----------------------------
     Calculates and returns the collective sum of numeric values.
@@ -116,24 +118,21 @@ class Sum(Accumulator):
         * $setWindowFields (Available starting in MongoDB 5.0)
 
     In MongoDB 3.2 and earlier, $sum is available in the $group stage only.
-    
+
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/sum/#mongodb-group-grp.-sum)
     """
 
-    operand : Any
-
+    operand: Any
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$sum": self.operand})
 
-        return self.express({
-            "$sum" : self.operand
-        })
 
-def sum(*args:Any)->Sum:
+def sum(*args: Any) -> Sum:
     """Returns a $sum operator"""
 
-    if len(args)>1:
+    if len(args) > 1:
         output = Sum(operand=list(args))
     else:
         output = Sum(operand=args[0])

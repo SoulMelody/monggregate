@@ -69,10 +69,11 @@ In the other supported stages:
 
 """
 
-
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.accumulators.accumulator import Accumulator
+
 
 class Average(Accumulator):
     """
@@ -103,20 +104,20 @@ class Average(Accumulator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/avg/#mongodb-group-grp.-avg)
     """
 
-    operand : Any
+    operand: Any
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$avg": self.operand})
 
-        return self.express({
-            "$avg" : self.operand
-        })
-    
+
 Avg = Average
 
-def average(operand:Any)->Average:
+
+def average(operand: Any) -> Average:
     """Returns a $avg operator"""
 
     return Average(operand=operand)
+
 
 avg = average

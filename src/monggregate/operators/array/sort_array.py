@@ -83,19 +83,20 @@ $sortArray to use a particular sorting algorithm.
 
 from typing import Any, Literal
 
-from monggregate.base import pyd, Expression
+from monggregate.base import Expression, pyd
 from monggregate.operators.array.array import ArrayOperator
+
 
 class SortArray(ArrayOperator):
     """
-    Abstraction of MongoDB $sortArray operator which sorts an array based 
+    Abstraction of MongoDB $sortArray operator which sorts an array based
     on its elements.
 
     Attributes
     --------------------------
         - operand, Any:Any valid expression that resolves to an array
         - by, dict[str, Literal[1, -1]] :  document indicating a sort order
-    
+
     Online MongoDB documentation
     ----------------------------
     Sorts an array based on its elements. The sort order is user specified.
@@ -119,22 +120,15 @@ class SortArray(ArrayOperator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortArray/#mongodb-expression-exp.-sortArray)
     """
 
-    operand : Any = pyd.Field(alias="input")
-    by : dict[str, Literal[1, -1]] = pyd.Field(1, alias="sort_by")
+    operand: Any = pyd.Field(alias="input")
+    by: dict[str, Literal[1, -1]] = pyd.Field(1, alias="sort_by")
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$sortArray":{
-                "input" : self.operand,
-                "sortBy" : self.by
-            }
-        })
+        return self.express({"$sortArray": {"input": self.operand, "sortBy": self.by}})
 
-def sort_array(operand:Any, sort_by:dict[str, Literal[1, -1]])->SortArray:
+
+def sort_array(operand: Any, sort_by: dict[str, Literal[1, -1]]) -> SortArray:
     """Returns a $first operator"""
 
-    return SortArray(
-        operand = operand,
-        sort_by = sort_by
-    )
+    return SortArray(operand=operand, sort_by=sort_by)

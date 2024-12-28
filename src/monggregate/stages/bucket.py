@@ -51,12 +51,12 @@ $sort.
 
 from typing import Any
 
-from monggregate.base import pyd, Expression
-
-from monggregate.stages.stage import Stage
+from monggregate.base import Expression, pyd
 from monggregate.fields import FieldName
 from monggregate.operators.accumulators.accumulator import AccumulatorExpression
+from monggregate.stages.stage import Stage
 from monggregate.utils import validate_field_path
+
 
 class Bucket(Stage):
     """
@@ -101,30 +101,33 @@ class Bucket(Stage):
     Categorizes incoming documents into groups, called buckets, based on a specified expression and bucket boundaries and outputs a document per each bucket. Each output document contains an _id field whose value specifies the inclusive lower bound of the bucket. The
     output option specifies the fields included in each output document.
 
-    $bucket only produces output documents for buckets that contain at least one input document.                           
-    
+    $bucket only produces output documents for buckets that contain at least one input document.
+
     Source :  https://www.mongodb.com/docs/manual/meta/aggregation-quick-reference/
     """
 
-    by : Any = pyd.Field(...,alias="group_by")
-    boundaries : list
-    default : Any = None
-    output : dict[FieldName, AccumulatorExpression] | None = None
+    by: Any = pyd.Field(..., alias="group_by")
+    boundaries: list
+    default: Any = None
+    output: dict[FieldName, AccumulatorExpression] | None = None
 
     # Validators
     # ------------------------------
-    _validate_by = pyd.validator("by", pre=True, always=True, allow_reuse=True)(validate_field_path) # re-used pyd.validators
+    _validate_by = pyd.validator("by", pre=True, always=True, allow_reuse=True)(
+        validate_field_path
+    )  # re-used pyd.validators
 
     @property
     def expression(self) -> Expression:
-
         # Generates statement
-        #--------------------------------------
-        return self.express({
-            "$bucket" : {
-                "groupBy" : self.by,
-                "boundaries" :self.boundaries,
-                "default" : self.default,
-                "output" : self.output
+        # --------------------------------------
+        return self.express(
+            {
+                "$bucket": {
+                    "groupBy": self.by,
+                    "boundaries": self.boundaries,
+                    "default": self.default,
+                    "output": self.output,
+                }
             }
-        })
+        )

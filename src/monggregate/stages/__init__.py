@@ -1,29 +1,29 @@
 """Stage Sub-package"""
 
 from typing import Union
-from monggregate.stages.stage import Stage
-from monggregate.stages.bucket_auto import BucketAuto, GranularityEnum
+
 from monggregate.stages.bucket import Bucket
+from monggregate.stages.bucket_auto import BucketAuto, GranularityEnum  # noqa: F401
 from monggregate.stages.count import Count
 from monggregate.stages.group import Group
 from monggregate.stages.limit import Limit
 from monggregate.stages.lookup import Lookup
 from monggregate.stages.match import Match
+from monggregate.stages.merge import Merge
 from monggregate.stages.out import Out
 from monggregate.stages.project import Project
 from monggregate.stages.replace_root import ReplaceRoot
 from monggregate.stages.sample import Sample
-from monggregate.stages.search import Search, SearchMeta, SearchStageMap
+from monggregate.stages.search import Search, SearchMeta, SearchStageMap  # noqa: F401
 from monggregate.stages.set import Set
 from monggregate.stages.skip import Skip
-from monggregate.stages.sort_by_count import SortByCount
 from monggregate.stages.sort import Sort
+from monggregate.stages.sort_by_count import SortByCount
+from monggregate.stages.stage import Stage  # noqa: F401
 from monggregate.stages.union_with import UnionWith
-from monggregate.stages.unwind import Unwind
 from monggregate.stages.unset import Unset
+from monggregate.stages.unwind import Unwind
 from monggregate.stages.vector_search import VectorSearch
-
-
 
 # TODO : Add the greater than 0 constraints on the models <VM, 18/09/2022>
 # TODO : Add skipped links in documentation <VM, 18/09/2022>
@@ -39,12 +39,12 @@ from monggregate.stages.vector_search import VectorSearch
 # Aliases
 # ---------------------------------
 
-    # MongoDB Official aliases
+# MongoDB Official aliases
 AddFields = Set
 ReplaceWith = ReplaceRoot
 
-    # Custom aliases
-Explode = Unwind # to match pandas equivalent operation
+# Custom aliases
+Explode = Unwind  # to match pandas equivalent operation
 
 AnyStage = Union[
     BucketAuto,
@@ -54,6 +54,7 @@ AnyStage = Union[
     Limit,
     Lookup,
     Match,
+    Merge,
     Out,
     Project,
     ReplaceRoot,
@@ -67,5 +68,5 @@ AnyStage = Union[
     UnionWith,
     Unwind,
     Unset,
-    VectorSearch
+    VectorSearch,
 ]

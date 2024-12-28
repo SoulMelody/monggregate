@@ -31,17 +31,17 @@ The $searchMeta stage takes a document with the following fields:
 
 Field                       Type       Necessity       Description
 
-<collector-name>            document   Conditional     Name of the collector to use with the query. 
-                                                       You can provide a document that contains the collector-specific options as the value for this field. 
+<collector-name>            document   Conditional     Name of the collector to use with the query.
+                                                       You can provide a document that contains the collector-specific options as the value for this field.
                                                        Either this or <operator-name> is required.
-count                       document   Optional        Document that specifies the count options for retrieving a count of the results. 
+count                       document   Optional        Document that specifies the count options for retrieving a count of the results.
                                                        To learn more, see Count Atlas Search Results.
 highlight                   document   Optional        Document that specifies the highlight options for displaying search terms in their original context.
 index                       string     Required        Name of the Atlas Search index to use. If omitted, defaults to default
-<operator-name>             document   Conditional     Name of the operator to search with. 
-                                                       You can provide a document that contains the operator-specific options as the value for this field. 
+<operator-name>             document   Conditional     Name of the operator to search with.
+                                                       You can provide a document that contains the operator-specific options as the value for this field.
                                                        Either this or <collector-name> is required.
-returnStoredSource          boolean    Optional        Flag that specifies whether to perform a full document lookup on the backend database or return only stored source fields directly from Atlas Search. 
+returnStoredSource          boolean    Optional        Flag that specifies whether to perform a full document lookup on the backend database or return only stored source fields directly from Atlas Search.
                                                        If omitted, defaults to false. To learn more, see Return Stored Source Fields.
 
 # Behavior
@@ -76,7 +76,7 @@ class SearchMeta(SearchBase):
         - index, str : name of the Atlas Search index to use. Defaults to default.
 
         - count, dict|None : Document that specifies the count options for retrieving a count
-                             of the results. 
+                             of the results.
 
         - highlight, dict|None : Document that specifies the highlight options for displaying
                                  search terms in their original context.
@@ -97,7 +97,7 @@ class SearchMeta(SearchBase):
         - <collector-name>, dict|None : Name of the collector to use with the query. You can provide
                                         a document that contains the collector-specific options as the value
                                         for this field. Either this or <operator-name> is required.
-    
+
     Online MongoDB documentation:
     -----------------------------
     The searchMeta stage returns different types of metadata result documents.
@@ -107,23 +107,18 @@ class SearchMeta(SearchBase):
 
     @property
     def expression(self) -> Expression:
-    
         config = {
-                "index":self.index,
-                "highlight":self.highlight,
-                "count":self.count,
-                "returnStoredSource":self.return_stored_source,
-                "scoreDetails":self.score_details
-            }
-        
+            "index": self.index,
+            "highlight": self.highlight,
+            "count": self.count,
+            "returnStoredSource": self.return_stored_source,
+            "scoreDetails": self.score_details,
+        }
+
         method = self.collector or self.operator
 
-    
         config.update(method.expression)
 
-        _statement = {
-            "$searchMeta":config
-        }
-     
+        _statement = {"$searchMeta": config}
+
         return self.express(_statement)
-    

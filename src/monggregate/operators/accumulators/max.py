@@ -75,10 +75,11 @@ $max does not traverse into the array but instead treats the array as a non-nume
 
 """
 
-
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.accumulators.accumulator import Accumulator
+
 
 class Max(Accumulator):
     """
@@ -92,7 +93,7 @@ class Max(Accumulator):
     ----------------------------
     Returns the maximum value.
     $max compares both value and type, using the specified BSON comparison order for values of different types.
-    
+
     $max is available in these stages:
         * $addFields (Available starting in MongoDB 3.4)
         * $bucket
@@ -110,18 +111,14 @@ class Max(Accumulator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/max/#mongodb-group-grp.-max)
     """
 
-    operand : Any
-
-
+    operand: Any
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$max": self.operand})
 
-        return self.express({
-            "$max" : self.operand
-        })
 
-def max(operand:Any)->Max:
+def max(operand: Any) -> Max:
     """Returns a $last operator"""
 
     return Max(operand=operand)

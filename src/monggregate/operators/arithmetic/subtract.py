@@ -9,7 +9,7 @@ Source : https://docs.mongodb.com/manual/reference/operator/aggregation/substrac
 Definition
 -------------------
 $substract
-Subtracts two numbers to return the difference, or two dates to return the difference in milliseconds, 
+Subtracts two numbers to return the difference, or two dates to return the difference in milliseconds,
 or a date and a number in milliseconds to return the resulting date.
 
 The $substract expression has the following syntax:
@@ -18,7 +18,7 @@ The $substract expression has the following syntax:
 
 The second argument is subtracted from the first argument.
 
-The arguments can be any valid expression as long as they resolve to numbers and/or dates. To subtract a number from a date, the date must be the first argument. 
+The arguments can be any valid expression as long as they resolve to numbers and/or dates. To subtract a number from a date, the date must be the first argument.
 For more information on expressions, see Expressions.
 
 Behavior
@@ -37,24 +37,26 @@ Starting in MongoDB 5.0, the result will have the same type as the input except 
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.arithmetic.arithmetic import ArithmeticOperator
 
+
 class Subtract(ArithmeticOperator):
     """
-    Abstraction of MongoDB $substract operator which subtracts two numbers 
-    to return the difference, or two dates to return the difference 
-    in milliseconds, or a date and a number in milliseconds to return the 
+    Abstraction of MongoDB $substract operator which subtracts two numbers
+    to return the difference, or two dates to return the difference
+    in milliseconds, or a date and a number in milliseconds to return the
     resulting date.
 
     Attributes
     -------------------
         - left, Any : the numerator of the division
         - right, Any : the denominator of the division
-            
+
     Online MongoDB documentation
     ----------------------------
-    Subtracts two numbers to return the difference, or two dates to return the difference in milliseconds, 
+    Subtracts two numbers to return the difference, or two dates to return the difference in milliseconds,
     or a date and a number in milliseconds to return the resulting date.
 
     The $substract expression has the following syntax:
@@ -63,26 +65,21 @@ class Subtract(ArithmeticOperator):
 
     The second argument is subtracted from the first argument.
 
-    The arguments can be any valid expression as long as they resolve to numbers and/or dates. To subtract a number from a date, the date must be the first argument. 
+    The arguments can be any valid expression as long as they resolve to numbers and/or dates. To subtract a number from a date, the date must be the first argument.
     For more information on expressions, see Expressions.
-    
+
     [Source](https://docs.mongodb.com/manual/reference/operator/aggregation/substract/#mongodb-expression-exp.-substract)
     """
-
 
     left: Any
     right: Any
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$substract" : [self.left, self.right]
-        })
-    
-def subtract(left:Any, right:Any)->Subtract:
+        return self.express({"$substract": [self.left, self.right]})
+
+
+def subtract(left: Any, right: Any) -> Subtract:
     """Returns a $substract operator"""
 
-    return Subtract(
-        left=left,
-        right=right
-    )
+    return Subtract(left=left, right=right)

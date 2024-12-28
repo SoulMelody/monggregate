@@ -43,12 +43,14 @@ $filter has the following syntax:
 """
 
 from typing import Any
-from monggregate.base import pyd, Expression
+
+from monggregate.base import Expression, pyd
 from monggregate.operators.array.array import ArrayOperator
+
 
 class Filter(ArrayOperator):
     """
-    Abstraction of MongoDB $filter operator which selects a subset of an 
+    Abstraction of MongoDB $filter operator which selects a subset of an
     array to return based on the specified condition.
 
 
@@ -66,7 +68,7 @@ class Filter(ArrayOperator):
                                The matching array elements are returned in the order they appear in the input array.
                                If the specified limit is greather than the number of matching array elements, $filter returns all matching
                                array elements. If the limit is null,$filters returns all matching array elements.
-    
+
     Online MongoDB documentation
     ----------------------------
     Selects a subset of an array to return based on the specified condition.
@@ -99,33 +101,33 @@ class Filter(ArrayOperator):
             If the specified limit is greater than the number of matching array elements,
             $filter returns all matching array elements. If the limit is null,
             $filter returns all matching array elements.
-        
+
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/filter/#mongodb-expression-exp.-filter)
-    
+
     """
 
-    operand : Any =  pyd.Field(alias="input")
-    query : Any = pyd.Field(alias="cond")
-    let : str | None = pyd.Field("this", alias="as")
-    limit : int | None = pyd.Field(None, ge=1) # NOTE : limit can actually be an expression but constraints are  invalid with any type
+    operand: Any = pyd.Field(alias="input")
+    query: Any = pyd.Field(alias="cond")
+    let: str | None = pyd.Field("this", alias="as")
+    limit: int | None = pyd.Field(
+        None, ge=1
+    )  # NOTE : limit can actually be an expression but constraints are  invalid with any type
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$filter":{
-               "input" : self.operand,
-               "cond" : self.query,
-               "as" : self.let,
-               "limit" : self.limit
+        return self.express(
+            {
+                "$filter": {
+                    "input": self.operand,
+                    "cond": self.query,
+                    "as": self.let,
+                    "limit": self.limit,
+                }
             }
-        })
+        )
 
-def filter(operand:Any, let:str, query:Any, limit:int|None=None)->Filter: 
+
+def filter(operand: Any, let: str, query: Any, limit: int | None = None) -> Filter:
     """Returns a $filter operator"""
 
-    return Filter(
-        operand=operand,
-        query = query,
-        let = let,
-        limit = limit
-    )
+    return Filter(operand=operand, query=query, let=let, limit=limit)

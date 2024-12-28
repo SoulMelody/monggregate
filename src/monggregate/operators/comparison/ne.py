@@ -26,12 +26,14 @@ The arguments can be any valid expression. For more information on expressions, 
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.comparison.comparator import Comparator
 
+
 class NotEqual(Comparator):
     """
-    Abstraction of MongoDB $ne operator which compares two values and 
+    Abstraction of MongoDB $ne operator which compares two values and
     returns true when the values are not equivalent, false otherwise.
 
     Attributes
@@ -54,25 +56,22 @@ class NotEqual(Comparator):
         >>> { $ne: [ <expression1>, <expression2> ] }
 
     The arguments can be any valid expression. For more information on expressions, see Expressions.
-    
+
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/ne/#mongodb-expression-exp.-ne)
     """
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$ne": [self.left, self.right]})
 
-        return self.express({
-            "$ne":[self.left, self.right]
-        })
 
 Ne = NotEqual
 
-def not_equal(left:Any, right:Any)->NotEqual:
+
+def not_equal(left: Any, right: Any) -> NotEqual:
     """Returns a $ne operator"""
 
-    return NotEqual(
-        left=left,
-        right=right
-    )
+    return NotEqual(left=left, right=right)
+
 
 ne = not_equal

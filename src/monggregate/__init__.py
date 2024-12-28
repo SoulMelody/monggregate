@@ -1,9 +1,9 @@
 """App Package"""
 
-from monggregate.dollar import S, SS
+from monggregate.dollar import SS, S
 from monggregate.pipeline import Pipeline
 
-__all__ = ["Pipeline", "S", "SS"]
+__all__ = ["SS", "Pipeline", "S"]
 
 __version__ = "0.21.0"
 __author__ = "Vianney Mixtur"

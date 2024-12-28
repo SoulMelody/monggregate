@@ -50,8 +50,10 @@ The following query, which contains multiple expressions supplied to $and, may p
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.boolean.boolean import BooleanOperator
+
 
 class And(BooleanOperator):
     """
@@ -76,18 +78,14 @@ class And(BooleanOperator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/and/#mongodb-expression-exp.-and)
     """
 
-    operands : list[Any]
+    operands: list[Any]
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$and" : self.operands
-        })
+        return self.express({"$and": self.operands})
 
-def and_(*args:Any)->And:
+
+def and_(*args: Any) -> And:
     """Returns a $and operator"""
 
-    return And(
-        operands=list(args)
-    )
-
+    return And(operands=list(args))

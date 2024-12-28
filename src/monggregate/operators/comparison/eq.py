@@ -27,12 +27,14 @@ The arguments can be any valid expression. For more information on expressions, 
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.comparison.comparator import Comparator
 
+
 class Equal(Comparator):
     """
-    Abstraction of MongoDB $eq operator which Compares two values and 
+    Abstraction of MongoDB $eq operator which Compares two values and
     returns true when the values are equivalent, False otherwise.
 
     Attributes
@@ -55,7 +57,7 @@ class Equal(Comparator):
         >>> { $eq: [ <expression1>, <expression2> ] }
 
     The arguments can be any valid expression. For more information on expressions, see Expressions.
-    
+
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/eq/#mongodb-expression-exp.-eq)
 
 
@@ -63,19 +65,16 @@ class Equal(Comparator):
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$eq": [self.left, self.right]})
 
-        return self.express({
-            "$eq":[self.left, self.right]
-        })
 
 Eq = Equal
 
-def equal(left:Any, right:Any)->Equal:
+
+def equal(left: Any, right: Any) -> Equal:
     """Creates an $eq operator"""
 
-    return Equal(
-        left=left,
-        right=right
-    )
+    return Equal(left=left, right=right)
+
 
 eq = equal

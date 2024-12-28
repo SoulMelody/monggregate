@@ -47,6 +47,7 @@ where myCount would be the output field that contains the count. You can specify
 from monggregate.base import Expression
 from monggregate.operators.accumulators.accumulator import Accumulator
 
+
 class Count(Accumulator):
     """
     Abstration of MongoDB $count operator that returns the number of documents in a group.
@@ -63,21 +64,16 @@ class Count(Accumulator):
 
     NOTE : Disambiguation
     This page describes the $count aggregation accumulator. For the $count aggregation pipeline stage, [see $count (aggregation pipeline)](https://www.mongodb.com/docs/manual/reference/operator/aggregation/count/#mongodb-pipeline-pipe.-count)
-    
+
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/count-accumulator/#mongodb-group-grp.-count)
     """
 
-
-
     @property
     def expression(self) -> Expression:
+        return self.express({"$count": {}})
 
-        return self.express({
-            "$count" : {}
-        })
 
-def count()->Count:
+def count() -> Count:
     """Returns a $count operator"""
 
     return Count()
-

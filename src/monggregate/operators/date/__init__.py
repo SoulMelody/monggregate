@@ -1,6 +1,6 @@
 """Date operators subpackage"""
 
-from monggregate.operators.date.millisecond import Millisecond, millisecond
+from monggregate.operators.date.millisecond import Millisecond, millisecond  # noqa: F401
 
 # TODO:
 # $dateAdd

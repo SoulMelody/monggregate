@@ -32,9 +32,10 @@ from typing import Any
 from monggregate.base import Expression
 from monggregate.operators.array.array import ArrayOperator
 
+
 class ObjectToArray(ArrayOperator):
     """
-    Abstraction of MongoDB $arrayToObject operator which converts a 
+    Abstraction of MongoDB $arrayToObject operator which converts a
     document to an array.
 
     Attributes
@@ -62,15 +63,14 @@ class ObjectToArray(ArrayOperator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/objectToArray/#mongodb-expression-exp.-objectToArray)
     """
 
-    operand : Any
+    operand: Any
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$objectToArray" : self.operand
-        })
+        return self.express({"$objectToArray": self.operand})
 
-def object_to_array(operand:Any)->ObjectToArray:
+
+def object_to_array(operand: Any) -> ObjectToArray:
     """Returns a $objectToArray operator"""
 
     return ObjectToArray(operand=operand)

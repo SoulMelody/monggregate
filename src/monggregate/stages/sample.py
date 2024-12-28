@@ -49,34 +49,30 @@ If you are using the:
 
 """
 
-from monggregate.base import pyd, Expression
+from monggregate.base import Expression, pyd
 from monggregate.stages.stage import Stage
+
 
 class Sample(Stage):
     """
-    Abstraction of MongoDB $sample statement that randomly selects the specified number of documents from the input documents. 
+    Abstraction of MongoDB $sample statement that randomly selects the specified number of documents from the input documents.
 
     Attributes:
     -----------
         - statement, dict : the statement generated after instantiation
         - value, int : positive integer representing the number of documents to be randomly picked. Defaults to 10.
-    
+
     Online MongoDB documentation:
     -----------------------------
     Randomly selects the specified number of documents from the input documents.
-    
+
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/sample/#mongodb-pipeline-pipe.-sample
     """
 
-
-    value : int = pyd.Field(10, gt=0)
+    value: int = pyd.Field(10, gt=0)
 
     @property
-    def expression(self)->Expression:
+    def expression(self) -> Expression:
         """Generate statement from arguments"""
 
-        return self.express({
-            "$sample" : {
-                "size" : self.value
-            }
-        })
+        return self.express({"$sample": {"size": self.value}})

@@ -1,4 +1,3 @@
-
 """
 Module definining an interface to MongoDB $skip stage operation in aggrgation pipeline.
 
@@ -61,9 +60,10 @@ See the following for more information on each:
 
 """
 
-#from pydantic import pyd.Field
+# from pydantic import pyd.Field
 from monggregate.base import Expression
 from monggregate.stages.stage import Stage
+
 
 class Skip(Stage):
     """
@@ -77,22 +77,19 @@ class Skip(Stage):
     Online MongoDB documentation:
     -----------------------------
     Skips over the specified number of documents that pass into the stage and passes the remaining documents to the next stage in the pipeline.
-    
+
     $skip takes a positive integer that specifies the maximum number of documents to skip.
 
     NOTE : Starting in MongoDB 5.0, the $skip pipeline aggregation has a 64-bit integer limit.
     Values passed to the pipeline which exceed this limit will return an invalid argument error.
-    
+
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/skip/#mongodb-pipeline-pipe.-skip
     """
 
-
-    value : int # Add gt 0 constraint ? check behavior with 0
+    value: int  # Add gt 0 constraint ? check behavior with 0
 
     @property
-    def expression(self)->Expression:
+    def expression(self) -> Expression:
         """Generate statement from arguments"""
 
-        return self.express({
-            "$skip" : self.value
-        })
+        return self.express({"$skip": self.value})

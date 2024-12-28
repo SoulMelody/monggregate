@@ -29,8 +29,10 @@ For more information on expressions, see Expressions.
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.accumulators.accumulator import Accumulator
+
 
 class Push(Accumulator):
     """
@@ -53,18 +55,14 @@ class Push(Accumulator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/push/#mongodb-group-grp.-push)
     """
 
-    operand : Any
-
-
+    operand: Any
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$push": self.operand})
 
-        return self.express({
-            "$push" : self.operand
-        })
 
-def push(operand:Any)->Push:
+def push(operand: Any) -> Push:
     """Returns a $push operator"""
 
     return Push(operand=operand)

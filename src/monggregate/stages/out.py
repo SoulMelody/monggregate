@@ -112,8 +112,9 @@ Restrictions
 
 """
 
-from monggregate.base import pyd, Expression
+from monggregate.base import Expression, pyd
 from monggregate.stages.stage import Stage
+
 
 class Out(Stage):
     """
@@ -131,31 +132,22 @@ class Out(Stage):
 
     WARNING : out replaces the specified collection if it exists.
     See [Replace Existing Collection](https://www.mongodb.com/docs/manual/reference/operator/aggregation/out/#std-label-replace-existing-collection) for details.
-    
+
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/out/#mongodb-pipeline-pipe.-out
     """
 
-
-    db : str|None
-    collection : str = pyd.Field(...,alias="coll")
+    db: str | None
+    collection: str = pyd.Field(..., alias="coll")
 
     @property
-    def expression(self)->Expression:
+    def expression(self) -> Expression:
         """Generates statement from attributes"""
-
 
         # Generate statement
         # -------------------------------
         if self.db:
-            statement = {
-                "$out" : {
-                    "db":self.db,
-                    "coll":self.collection
-                }
-            }
+            statement = {"$out": {"db": self.db, "coll": self.collection}}
         else:
-            statement = {
-                "$out" : self.collection
-            }
+            statement = {"$out": self.collection}
 
         return self.express(statement)

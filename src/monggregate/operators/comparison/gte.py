@@ -23,20 +23,22 @@ For more information on expressions, see Expressions.
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.comparison.comparator import Comparator
 
+
 class GreatherThanOrEqual(Comparator):
     """
-    Abstraction of MongoDB $gte operator which compares two values and 
-    returns true when the first value is greater than or equivalent to the 
+    Abstraction of MongoDB $gte operator which compares two values and
+    returns true when the first value is greater than or equivalent to the
     second value and false otherwise.
 
     Attributes
     -------------------
         - left, Any :Left operand. Can be any valid expression.
         - right, Any :Right operand. Can be any valid expression.
-    
+
     Online MongoDB documentation
     ----------------------------
     Compares two values and returns:
@@ -52,25 +54,22 @@ class GreatherThanOrEqual(Comparator):
         >>> { $gte: [ <expression1>, <expression2> ] }
 
     For more information on expressions, see Expressions.
-    
+
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/gte/#mongodb-expression-exp.-gt)
     """
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$gte": [self.left, self.right]})
 
-        return self.express({
-            "$gte":[self.left, self.right]
-        })
 
 Gte = GreatherThanOrEqual
 
-def grether_than_or_equal(left:Any, right:Any)->GreatherThanOrEqual:
+
+def grether_than_or_equal(left: Any, right: Any) -> GreatherThanOrEqual:
     """Returns a $gte operator"""
 
-    return GreatherThanOrEqual(
-        left=left,
-        right=right
-    )
+    return GreatherThanOrEqual(left=left, right=right)
+
 
 gte = grether_than_or_equal

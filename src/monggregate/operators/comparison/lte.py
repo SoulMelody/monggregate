@@ -23,13 +23,15 @@ For more information on expressions, see Expressions.
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.comparison.comparator import Comparator
 
+
 class LowerThanOrEqual(Comparator):
     """
-    Abstraction of MongoDB $gt operator which compares two values and 
-    returns true when the first value is less than or equivalent the 
+    Abstraction of MongoDB $gt operator which compares two values and
+    returns true when the first value is less than or equivalent the
     second value, and false otherwise.
 
     Attributes
@@ -52,26 +54,23 @@ class LowerThanOrEqual(Comparator):
         >>> { $lt: [ <expression1>, <expression2> ] }
 
     For more information on expressions, see Expressions.
-    
+
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/lte/#mongodb-expression-exp.-lte)
 
     """
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$lte": [self.left, self.right]})
 
-        return self.express({
-            "$lte":[self.left, self.right]
-        })
 
 Lte = LowerThanOrEqual
 
-def lower_than_or_equal(left:Any, right:Any)->LowerThanOrEqual:
+
+def lower_than_or_equal(left: Any, right: Any) -> LowerThanOrEqual:
     """Returns a $lt operator"""
 
-    return LowerThanOrEqual(
-        left=left,
-        right=right
-    )
+    return LowerThanOrEqual(left=left, right=right)
+
 
 lte = lower_than_or_equal

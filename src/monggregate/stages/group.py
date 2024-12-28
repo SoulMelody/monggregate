@@ -63,10 +63,13 @@ For more information, see $group Optimization.
 
 
 """
+
 from typing import Any
-from monggregate.base import pyd, Expression
+
+from monggregate.base import Expression, pyd
 from monggregate.stages.stage import Stage
 from monggregate.utils import validate_field_path, validate_field_paths
+
 
 class Group(Stage):
     """
@@ -76,7 +79,7 @@ class Group(Stage):
     -----------
         - by (_id),  str | list[str] | set[str] | dict | None : field or group of fields to group by
         - query, dict | None : Computed aggregated values (per group)
-    
+
     Online MongoDB documentation:
     -----------------------------
     The $group stage separates documents into groups according to a "group key". The output is one document for each unique group key.
@@ -94,25 +97,29 @@ class Group(Stage):
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/#mongodb-pipeline-pipe.-group
     """
 
-    by : Any  = pyd.Field(None, alias = "_id") # | or any constant value, in this case
-                                                # the stage returns a single document that aggregates values across all of the input documents
-    query : dict = {}
+    by: Any = pyd.Field(None, alias="_id")  # | or any constant value, in this case
+    # the stage returns a single document that aggregates values across all of the input documents
+    query: dict = {}
 
     # Validators
     # ------------------------------------------
-    _validate_by = pyd.validator("by", pre=True, always=True, allow_reuse=True)(validate_field_path) # re-used pyd.validator
-    _validate_iterable_by = pyd.validator("by", pre=True, always=True, allow_reuse=True)(validate_field_paths) # re-used pyd.validator
+    _validate_by = pyd.validator("by", pre=True, always=True, allow_reuse=True)(
+        validate_field_path
+    )  # re-used pyd.validator
+    _validate_iterable_by = pyd.validator("by", pre=True, always=True, allow_reuse=True)(
+        validate_field_paths
+    )  # re-used pyd.validator
 
     @pyd.validator("query", always=True)
     @classmethod
-    def validate_query(cls, query:dict, values:dict[str,Any]) -> dict:
+    def validate_query(cls, query: dict, values: dict[str, Any]) -> dict:
         """Validates the query argument"""
 
-        by = values.get("by") # maybe need to check that by is not empty list or empty set
+        by = values.get("by")  # maybe need to check that by is not empty list or empty set
 
         # maybe need to check query before
-        if not "_id" in query:
-            query.update({"_id":by})
+        if "_id" not in query:
+            query.update({"_id": by})
 
         return query
 
@@ -120,7 +127,4 @@ class Group(Stage):
     def expression(self) -> Expression:
         """Generates set stage statement from arguments"""
 
-
-        return  self.express({
-            "$group":self.query
-        })
+        return self.express({"$group": self.query})

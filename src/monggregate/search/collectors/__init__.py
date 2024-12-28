@@ -10,30 +10,29 @@ facet               Groups query results by values or ranges in specified, facet
 """
 
 from monggregate.search.collectors.facet import (
+    DateFacet,
     # Operator
     Facet,
     # Results
     FacetBucket,
     FacetBuckets,
-    FacetResult,
-    # Query
-    StringFacet,
-    NumericFacet,
-    DateFacet,
-    Facets,
     # String
     FacetName,
+    FacetResult,
+    Facets,
+    NumericFacet,
+    # Query
+    StringFacet,
 )
 
-
 __all__ = [
+    "DateFacet",
     "Facet",
     "FacetBucket",
     "FacetBuckets",
-    "FacetResult",
-    "StringFacet",
-    "NumericFacet",
-    "DateFacet",
-    "Facets",
     "FacetName",
+    "FacetResult",
+    "Facets",
+    "NumericFacet",
+    "StringFacet",
 ]

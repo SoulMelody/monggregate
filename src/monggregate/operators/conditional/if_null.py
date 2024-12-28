@@ -44,14 +44,16 @@ $ifNull requires all three arguments (if-then-else) for either syntax.
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.conditional.conditional import ConditionalOperator
 
+
 class IfNull(ConditionalOperator):
     """
-    Abstraction of MongoDB $cond operator which evaluates input expressions 
-    for null values and returns the first non-null input expression value 
-    found or a replacement expression value if all input expressions 
+    Abstraction of MongoDB $cond operator which evaluates input expressions
+    for null values and returns the first non-null input expression value
+    found or a replacement expression value if all input expressions
     evaluate to null.
 
     Attributes
@@ -68,24 +70,19 @@ class IfNull(ConditionalOperator):
         * A replacement expression value if all input expressions evaluate to null.
 
     $ifNull treats undefined values and missing fields as null.
-    
+
     [Source](https://docs.mongodb.com/manual/reference/operator/aggregation/ifNull/#mongodb-expression-exp.-ifNull)
     """
 
-
-    operand : Any # NOTE : Maybe diverge from Mongo and do not allow multiple expressions <VM, 14/08/2023>
-    output : Any
+    operand: Any  # NOTE : Maybe diverge from Mongo and do not allow multiple expressions <VM, 14/08/2023>
+    output: Any
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$ifNull" : [self.operand, self.output]
-        })
-    
-def if_null(operand:Any, output:Any)->IfNull:
+        return self.express({"$ifNull": [self.operand, self.output]})
+
+
+def if_null(operand: Any, output: Any) -> IfNull:
     """Returns an $if_null operator"""
 
-    return IfNull(
-        operand=operand,
-        output=output
-    )
+    return IfNull(operand=operand, output=output)

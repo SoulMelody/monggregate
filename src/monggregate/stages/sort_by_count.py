@@ -47,9 +47,10 @@ $group + $sort sequence:
 
 """
 
-from monggregate.base import pyd, Expression
+from monggregate.base import Expression, pyd
 from monggregate.stages.stage import Stage
 from monggregate.utils import validate_field_path
+
 
 class SortByCount(Stage):
     """
@@ -59,7 +60,7 @@ class SortByCount(Stage):
     Attributes:
     -----------
         - _statement, dict : the statement generated during the validation process
-        - by, str : the key to group, sort and count on    
+        - by, str : the key to group, sort and count on
 
     Online MongoDB documentation:
     -----------------------------
@@ -73,17 +74,16 @@ class SortByCount(Stage):
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/sortByCount/#mongodb-pipeline-pipe.-sortByCount
     """
 
-    by : str # TODO : Allow more types <VM, 17/09/2022>
+    by: str  # TODO : Allow more types <VM, 17/09/2022>
 
     # Validators
     # ------------------------
-    _validates_path_to_array = pyd.validator("by", allow_reuse=True, pre=True, always=True)(validate_field_path)
-
+    _validates_path_to_array = pyd.validator("by", allow_reuse=True, pre=True, always=True)(
+        validate_field_path
+    )
 
     @property
-    def expression(self)->Expression:
+    def expression(self) -> Expression:
         """Generates sort_by_count stage statement from SortByCount class keywords arguments"""
 
-        return  self.express({
-            "$sortByCount" : self.by
-        })
+        return self.express({"$sortByCount": self.by})

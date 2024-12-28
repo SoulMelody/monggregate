@@ -26,8 +26,10 @@ NOTE : Aggregation expressions accept a variable number of arguments. These argu
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.array.array import ArrayOnlyOperator
+
 
 class IsArray(ArrayOnlyOperator):
     """
@@ -49,13 +51,10 @@ class IsArray(ArrayOnlyOperator):
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$isArray":self.operand
-        })
+        return self.express({"$isArray": self.operand})
 
-def is_array(array:Any)->IsArray:
+
+def is_array(array: Any) -> IsArray:
     """Returns a $isArray operator"""
 
-    return IsArray(
-        operand = array
-    )
+    return IsArray(operand=array)

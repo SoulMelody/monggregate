@@ -66,9 +66,10 @@ preserveNullAndEmptyArrays option.
 
 """
 
-from monggregate.base import pyd, Expression
+from monggregate.base import Expression, pyd
 from monggregate.stages.stage import Stage
 from monggregate.utils import validate_field_path
+
 
 class Unwind(Stage):
     """
@@ -86,26 +87,30 @@ class Unwind(Stage):
     -----------------------------
     Deconstructs an array field from the input documents to output a document for each element.
     Each output document is the input document with the value of the array field replaced by the element.
-    
+
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/unwind/#mongodb-pipeline-pipe.-unwind
     """
 
     # Attributes
     # ----------------------
-    path_to_array : str = pyd.Field(..., alias = "path")
-    include_array_index : str | None = None #The name of a new field to hold the array index of the element.
-                                        # The name cannot start with a dollar sign $
+    path_to_array: str = pyd.Field(..., alias="path")
+    include_array_index: str | None = (
+        None  # The name of a new field to hold the array index of the element.
+    )
+    # The name cannot start with a dollar sign $
     always: bool = pyd.Field(False, alias="preserve_null_and_empty_arrays")
 
     # Validators
     # ------------------------
-    _validates_path_to_array = pyd.validator("path_to_array", allow_reuse=True, pre=True, always=True)(validate_field_path)
+    _validates_path_to_array = pyd.validator(
+        "path_to_array", allow_reuse=True, pre=True, always=True
+    )(validate_field_path)
 
     @property
-    def expression(self)->Expression:
+    def expression(self) -> Expression:
         """Generates set stage statement from arguments"""
 
-        params = {"path":self.path_to_array}
+        params = {"path": self.path_to_array}
 
         if self.include_array_index:
             params["includeArrayIndex"] = self.include_array_index
@@ -113,4 +118,4 @@ class Unwind(Stage):
         if self.always:
             params["preserveNullAndEmptyArrays"] = self.always
 
-        return  self.express({"$unwind" : params})
+        return self.express({"$unwind": params})

@@ -65,21 +65,22 @@ Or, you can use $ifNullexpression to specify some other document to be root; for
 
 """
 
-from monggregate.base import pyd, Expression
+from monggregate.base import Expression, pyd
 from monggregate.stages.stage import Stage
 from monggregate.utils import validate_field_path
+
 
 class ReplaceRoot(Stage):
     """
     Abstraction of MongoDB $replaceRoot statement that replaces the input document with the specified document.
-    
+
     Attributes:
     -----------
 
         - statement, dict : the statement generated during instantiation after parsing the other arguments
         - path_to_new_root (path), str|None : the path to the embedded document to be promoted
         - document, dict|None : document being created and to be set as the new root or expression
-    
+
     Online MongoDB documentation:
     -----------------------------
     Replaces the input document with the specified document.
@@ -89,21 +90,23 @@ class ReplaceRoot(Stage):
 
     The replacement document can be any valid expression that resolves to a document.
     The stage errors and fails if <replacementDocument> is not a document. For more information on expressions, see Expressions.
-    
+
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceRoot/#mongodb-pipeline-pipe.-replaceRoot
     """
 
     # Attributes
     # --------------------------
-    path_to_new_root : str|None = pyd.Field(None, alias="path")
-    document : dict|None 
+    path_to_new_root: str | None = pyd.Field(None, alias="path")
+    document: dict | None
 
     # Validators
     # ---------------------------
-    _validates_path_to_new_root = pyd.validator("path_to_new_root", allow_reuse=True, pre=True, always=True)(validate_field_path)
+    _validates_path_to_new_root = pyd.validator(
+        "path_to_new_root", allow_reuse=True, pre=True, always=True
+    )(validate_field_path)
 
     @property
-    def expression(self)->Expression:
+    def expression(self) -> Expression:
         """Generate statements from argument"""
 
         if self.path_to_new_root:
@@ -111,5 +114,4 @@ class ReplaceRoot(Stage):
         else:
             expression = self.document
 
-    
-        return  self.express({"$replaceRoot":{"newRoot":expression}})
+        return self.express({"$replaceRoot": {"newRoot": expression}})

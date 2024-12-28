@@ -1,5 +1,5 @@
 """
-Module defining an interface to MongoDB Atlas Search autocomplete operator 
+Module defining an interface to MongoDB Atlas Search autocomplete operator
 
 Online MongoDB documentation:
 ----------------------------------------------
@@ -9,9 +9,9 @@ Source : https://www.mongodb.com/docs/atlas/atlas-search/autocomplete/
 # Definition
 # --------------------------------------------
 
-The autocomplete operator performs a search for a word or phrase that contains 
-a sequence of characters from an incomplete input string. 
-You can use the autocomplete operator with search-as-you-type applications 
+The autocomplete operator performs a search for a word or phrase that contains
+a sequence of characters from an incomplete input string.
+You can use the autocomplete operator with search-as-you-type applications
 to predict words with increasing accuracy as characters are entered in your application's search field. autocomplete returns results that contain predicted words based on the tokenization strategy specified in the index definition for autocompletion. The fields that you intend to query with the autocomplete operator must be indexed with the How to Index Fields for Autocompletion data type in the collection's index definition.
 
 NOTE : Atlas Search might return inaccurate results for queries with more than three words in a single string.
@@ -53,20 +53,20 @@ path        string          Indexed autocomplete type of field      Yes
                             does not support multi in the field
                             path.
 
-fuzzy       object          Enable fuzzy search. Find strings       no 
-                            which are similar to the search 
+fuzzy       object          Enable fuzzy search. Find strings       no
+                            which are similar to the search
                             term or terms.
 
-                            
+
 fuzzy
 .maxEdits   integer         Maximum number of single-character      no              2
                             edits required to match the specified
-                            specified search term. 
+                            specified search term.
                             Value can be 1 or 2.
 
 fuzzy       integer         Number of characters at the begining    no              0
 .prefix                     of each term in the result that must
-Length                      exactly match.  
+Length                      exactly match.
 
 
 fuzzy       integer         Maximum number of variations to         no              50
@@ -74,21 +74,21 @@ fuzzy       integer         Maximum number of variations to         no          
 Expansions                  applies on a per-token basis
 
 score       object          score assigned to matching search       no
-                            term results. 
+                            term results.
                             Use one of the following
                             options to modify the score:
 
-                            boost    |Multiply the results score 
+                            boost    |Multiply the results score
                                      |by the given number.
 
-                            constant |Replace the result score 
+                            constant |Replace the result score
                                      |with the given number.
 
-                            NOTE: autocomplete offers less 
-                            fidelity in score in exchange 
+                            NOTE: autocomplete offers less
+                            fidelity in score in exchange
                             or faster query execution
 
-tokenOder   str             Order in which to search for tokens.    no              any                  
+tokenOder   str             Order in which to search for tokens.    no              any
                             Value can be one of the following:
 
                             any       |Indicates tokens in the
@@ -96,12 +96,12 @@ tokenOder   str             Order in which to search for tokens.    no          
                                       |order in the documents.
                                       |Results contain documents
                                       |where the tokens appear
-                                      |sequentially and 
+                                      |sequentially and
                                       |non-sequentially.
-                                      |However, results where the 
+                                      |However, results where the
                                       |tokens appear sequantially
                                       |score higher
-        
+
 
                             sequen-   |Indicates tokens in the query
                             tial      |must appear adjacent to each
@@ -114,13 +114,13 @@ tokenOder   str             Order in which to search for tokens.    no          
 # Limitations
 # -----------------------------
 
-The autocomplete operator query results that are exact matches receive a lower score than results that aren't exact matches. 
-Atlas Search can't determine if a query string is an exact match for an indexed text if you specify just the autocomplete-indexed token substrings. 
+The autocomplete operator query results that are exact matches receive a lower score than results that aren't exact matches.
+Atlas Search can't determine if a query string is an exact match for an indexed text if you specify just the autocomplete-indexed token substrings.
 To score exact matches higher, try the following workaround:
 
 NOTE : The following workaround doesn't guarantee higher scores for exact matches in all cases.
 
-    1. Index the field as both [How to Index Fields for Autocompletion](https://www.mongodb.com/docs/atlas/atlas-search/field-types/autocomplete-type/#std-label-bson-data-types-autocomplete) 
+    1. Index the field as both [How to Index Fields for Autocompletion](https://www.mongodb.com/docs/atlas/atlas-search/field-types/autocomplete-type/#std-label-bson-data-types-autocomplete)
        and [How to Index String Fields types](https://www.mongodb.com/docs/atlas/atlas-search/field-types/string-type/#std-label-bson-data-types-string).
 
     2. Query using the compound operator.
@@ -130,10 +130,12 @@ For a demonstration of this workaround, [see Compound Example](https://www.mongo
 """
 
 from monggregate.base import Expression
-from monggregate.utils import StrEnum
-from monggregate.search.operators.operator import SearchOperator
 from monggregate.search.commons import FuzzyOptions
-#from monggregate.expressions.fields import FieldPath
+from monggregate.search.operators.operator import SearchOperator
+from monggregate.utils import StrEnum
+
+# from monggregate.expressions.fields import FieldPath
+
 
 class TokenOrderEnum(StrEnum):
     """Enumeration of possible values for tokenOrder parameter"""
@@ -141,15 +143,16 @@ class TokenOrderEnum(StrEnum):
     ANY = "any"
     SEQUENTIAL = "sequential"
 
+
 class Autocomplete(SearchOperator):
     """
     Creates an autocomplete operation statement in an Atlas Search query.
 
     Description:
     -------------------------------
-    The autocomplete operator performs a search for a word or phrase that contains a sequence of characters from an incomplete input string. 
-    You can use the autocomplete operator with search-as-you-type applications to predict words with increasing accuracy as characters are entered in your application's search field. 
-    autocomplete returns results that contain predicted words based on the tokenization strategy specified in the index definition for autocompletion. 
+    The autocomplete operator performs a search for a word or phrase that contains a sequence of characters from an incomplete input string.
+    You can use the autocomplete operator with search-as-you-type applications to predict words with increasing accuracy as characters are entered in your application's search field.
+    autocomplete returns results that contain predicted words based on the tokenization strategy specified in the index definition for autocompletion.
     The fields that you intend to query with the autocomplete operator must be indexed with the How to Index Fields for Autocompletion data type in the collection's index definition.
 
     Attributes:
@@ -158,29 +161,29 @@ class Autocomplete(SearchOperator):
                                  terms in a string, Atlas Search also looks for a match
                                  for each term in the string separately.
         - path, str : Indexed autocomplete type of field to search.
-        - fuzzy, FuzzyOptions : Enable fuzzy search. Find strings which are similar to the search 
+        - fuzzy, FuzzyOptions : Enable fuzzy search. Find strings which are similar to the search
                        term or terms.
         - score, dict : score assigned to matching search term results
         - token_order, "any"|"sequential" : Order in which to search for tokens.
-    
+
     """
 
-    query : str|list[str]
-    path : str
-    token_order : TokenOrderEnum = TokenOrderEnum.ANY
-    fuzzy : FuzzyOptions|None
-    score : dict|None
+    query: str | list[str]
+    path: str
+    token_order: TokenOrderEnum = TokenOrderEnum.ANY
+    fuzzy: FuzzyOptions | None
+    score: dict | None
 
     @property
     def expression(self) -> Expression:
-        
-        return self.express({
-            "autocomplete":{
-                "query": self.query,
-                "path": self.path,
-                "tokenOrder": str(self.token_order),
-                "fuzzy": self.fuzzy,
-                "score": self.score
+        return self.express(
+            {
+                "autocomplete": {
+                    "query": self.query,
+                    "path": self.path,
+                    "tokenOrder": str(self.token_order),
+                    "fuzzy": self.fuzzy,
+                    "score": self.score,
+                }
             }
-        })
-    
+        )

@@ -9,7 +9,7 @@ Source : https://docs.mongodb.com/manual/reference/operator/aggregation/pow/#mon
 Definition
 -------------------
 $pow
-Raises a number to the specified exponent and returns the result. 
+Raises a number to the specified exponent and returns the result.
 $pow has the following syntax:.
 
 The $pow expression has the following syntax:
@@ -33,15 +33,17 @@ The result will have the same type as the input except when it cannot be represe
 
     * A 64-bit integer will be converted to double if the result is not representable as a 64-bit integer.
 
-If either argument resolves to a value of null or refers to a field that is missing, $pow returns null. 
+If either argument resolves to a value of null or refers to a field that is missing, $pow returns null.
 If either argument resolves to NaN, $pow returns NaN.
 
 
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.arithmetic.arithmetic import ArithmeticOperator
+
 
 class Pow(ArithmeticOperator):
     """
@@ -51,10 +53,10 @@ class Pow(ArithmeticOperator):
     -------------------
         - number, Any : the numerator of the division
         - exponent, Any : the denominator of the division
-            
+
     Online MongoDB documentation
     ----------------------------
-    Raises a number to the specified exponent and returns the result. 
+    Raises a number to the specified exponent and returns the result.
     $pow has the following syntax:.
 
     The $pow expression has the following syntax:
@@ -69,20 +71,15 @@ class Pow(ArithmeticOperator):
     [Source](https://docs.mongodb.com/manual/reference/operator/aggregation/pow/#mongodb-expression-exp.-pow)
     """
 
-
-    number : Any
-    exponent : Any
+    number: Any
+    exponent: Any
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$pow" : [self.number, self.exponent]
-        })
-    
-def pow(number:Any, exponent:Any)->Pow:
+        return self.express({"$pow": [self.number, self.exponent]})
+
+
+def pow(number: Any, exponent: Any) -> Pow:
     """Returns a $pow operator"""
 
-    return Pow(
-        number=number,
-        exponent=exponent
-    )
+    return Pow(number=number, exponent=exponent)

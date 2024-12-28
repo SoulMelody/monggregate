@@ -1,13 +1,14 @@
 """Operator Module"""
 
 # Standard Library imports
-#----------------------------
+# ----------------------------
 from abc import ABC
 from typing import Literal
 
 # Package imports
 # ---------------------------
 from monggregate.base import BaseModel
+
 
 class SearchOperator(BaseModel, ABC):
     """MongoDB operator abstract base class"""
@@ -20,11 +21,10 @@ OperatorLiteral = Literal[
     "compound",
     "equals",
     "exists",
-    #"facet",
+    # "facet",
     "more_like_this",
     "range",
     "regex",
     "text",
-    "wildcard"
+    "wildcard",
 ]
-    

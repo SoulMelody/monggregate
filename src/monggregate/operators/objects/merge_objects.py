@@ -42,12 +42,14 @@ in the resulting document, has the value from the last document merged for the f
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.array.array import ArrayOperator
 
+
 class MergeObjects(ArrayOperator):
     """
-    Abstraction of MongoDB $arrayToObject operator which combines 
+    Abstraction of MongoDB $arrayToObject operator which combines
     multiple documents into a single document.
 
     Attribute
@@ -67,16 +69,14 @@ class MergeObjects(ArrayOperator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/mergeObjects/#mongodb-expression-exp.-mergeObjects)
     """
 
-    operand : Any | list[Any]
-
+    operand: Any | list[Any]
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$mergeObjects" : self.operand
-        })
+        return self.express({"$mergeObjects": self.operand})
 
-def merge_objects(operand:Any)->MergeObjects:
+
+def merge_objects(operand: Any) -> MergeObjects:
     """Returns a $mergeObjects operator"""
 
     return MergeObjects(operand=operand)

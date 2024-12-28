@@ -50,10 +50,11 @@ An example empty window is a { documents: [ -1, -1 ] } documents window on the l
 
 """
 
-
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.accumulators.accumulator import Accumulator
+
 
 class Last(Accumulator):
     """
@@ -66,7 +67,7 @@ class Last(Accumulator):
     Online MongoDB documentation
     ----------------------------
     Returns the value that results from applying an expression to the last document in a group of documents. Only meaningful when documents are in a defined order.
-    
+
     `$last` is available in these stages:
 
         * $bucket
@@ -81,18 +82,14 @@ class Last(Accumulator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/last/#mongodb-group-grp.-last)
     """
 
-    operand : Any
-
-
+    operand: Any
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$last": self.operand})
 
-        return self.express({
-            "$last" : self.operand
-        })
 
-def last(operand:Any)->Last:
+def last(operand: Any) -> Last:
     """Returns a $last operator"""
 
     return Last(operand=operand)

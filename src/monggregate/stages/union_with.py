@@ -11,7 +11,7 @@ Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/unio
 # ----------------------------------------
 New in version 4.4.
 
-Performs a union of two collections. 
+Performs a union of two collections.
 $unionWith combines pipeline results from two collections into a single result set. The stage outputs the combined result set (including duplicates) to the next stage.
 
 The order in which the combined result set documents are output is unspecified.
@@ -102,8 +102,8 @@ The result set no longer contains duplicates:
 
 $unionWith a Sharded Collection
 
-If the $unionWith stage is part of the $lookup pipeline, the $unionWith 
-coll cannot be sharded. 
+If the $unionWith stage is part of the $lookup pipeline, the $unionWith
+coll cannot be sharded.
 For example, in the following aggregation operation, the inventory_q1 collection cannot be sharded:
 
 >>> db.suppliers.aggregate([
@@ -131,10 +131,10 @@ If the db.collection.aggregate() does not include a collation, the db.collection
 
     * If the $unionWith collis a view, then its collation must match that of the top-level collection/view. Otherwise, the operation errors.
 
-    
+
 Atlas Search Support
 
-Starting in MongoDB 6.0, you can specify the Atlas Search $search or $searchMeta stage in the $unionWith pipeline to search collections on the Atlas cluster. 
+Starting in MongoDB 6.0, you can specify the Atlas Search $search or $searchMeta stage in the $unionWith pipeline to search collections on the Atlas cluster.
 The $search or the $searchMeta stage must be the first stage inside the $unionWith pipeline.
 
 [{
@@ -151,7 +151,7 @@ The $search or the $searchMeta stage must be the first stage inside the $unionWi
   }
 }]
 
-To see an example of $unionWith with $search, see the Atlas Search tutorial 
+To see an example of $unionWith with $search, see the Atlas Search tutorial
 [Run an Atlas Search $search Query Using $unionWith.](https://www.mongodb.com/docs/atlas/atlas-search/tutorial/search-with-unionwith/)
 
 Restrictions
@@ -160,7 +160,7 @@ Restriction         Description
 
 Transactions        An aggregation pipeline cannot use $unionWith inside transactions.
 
-Sharded Collection  If the $unionWith stage is part of the $lookup pipeline, 
+Sharded Collection  If the $unionWith stage is part of the $lookup pipeline,
                     the $unionWith coll cannot be sharded.
 
 $out                The $unionWith pipeline cannot include the $out stage.
@@ -170,8 +170,8 @@ $merge              The $unionWith pipeline cannot include the $merge stage.
 """
 
 from typing import Any
-from monggregate.base import pyd, Expression
-from monggregate.base import BaseModel
+
+from monggregate.base import BaseModel, Expression, pyd
 from monggregate.stages.stage import Stage
 
 
@@ -183,17 +183,17 @@ class UnionWith(Stage):
     -----------
         - collection / coll, str : The collection or view whose pipeline results you wish to include in the result set
         - pipeline, list[dict] | Pipeline | None : An aggregation pipeline to apply to the specified coll.
-    
+
     Online MongoDB documentation:
     -----------------------------
     Performs a union of two collections.
     unionWith combines pipeline results from two collections into a single result set. The stage outputs the combined result set (including duplicates) to the next stage.
 
     The order in which the combined result set documents are output is unspecified.
-    
+
     Source : https://www.mongodb.com/docs/manual/reference/operator/aggregation/unionWith/#mongodb-pipeline-pipe.-unionWith
     """
-    
+
     collection: str = pyd.Field(alias="coll")
     # Find a way to better type the pipeline while avoiding circular imports <VM, 18/06/2023>
     pipeline: list[dict] | None = None
@@ -204,7 +204,7 @@ class UnionWith(Stage):
 
         output = pipeline
         if isinstance(pipeline, BaseModel):
-            output =  pipeline.expression
+            output = pipeline.expression
 
         return output
 
@@ -213,12 +213,7 @@ class UnionWith(Stage):
         """Generates $unionWith statement"""
 
         if self.pipeline:
-            statement = {
-                "$unionWith": {
-                    "coll": self.collection,
-                    "pipeline": self.pipeline
-                }
-            }
+            statement = {"$unionWith": {"coll": self.collection, "pipeline": self.pipeline}}
         else:
             statement = {"$unionWith": self.collection}
 

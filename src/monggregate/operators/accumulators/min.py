@@ -77,8 +77,10 @@ $min does not traverse into the array but instead treats the array as a non-nume
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.accumulators.accumulator import Accumulator
+
 
 class Min(Accumulator):
     """
@@ -110,18 +112,14 @@ class Min(Accumulator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/min/#mongodb-group-grp.-min)
     """
 
-    operand : Any
-
-
+    operand: Any
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$min": self.operand})
 
-        return self.express({
-            "$min" : self.operand
-        })
 
-def min(operand:Any)->Min:
+def min(operand: Any) -> Min:
     """Returns a $min operator"""
 
     return Min(operand=operand)

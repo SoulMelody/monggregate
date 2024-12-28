@@ -45,8 +45,10 @@ Behavior
 """
 
 from typing import Any
-from monggregate.base import pyd, Expression
+
+from monggregate.base import Expression, pyd
 from monggregate.operators.array.array import ArrayOperator
+
 
 class MinN(ArrayOperator):
     """
@@ -65,22 +67,15 @@ class MinN(ArrayOperator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/minN-array-element/#mongodb-expression-exp.-minN)
     """
 
-    operand : Any = pyd.Field(alias="input")
-    limit : Any = pyd.Field(1, alias="n")
+    operand: Any = pyd.Field(alias="input")
+    limit: Any = pyd.Field(1, alias="n")
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$minN" : {
-                "n" : self.limit,
-                "input" : self.operand
-            }
-        })
+        return self.express({"$minN": {"n": self.limit, "input": self.operand}})
 
-def min_n(operand:Any, limit:Any=1)->MinN:
+
+def min_n(operand: Any, limit: Any = 1) -> MinN:
     """Returns a $minN operator"""
 
-    return MinN(
-        operand = operand,
-        limit = limit
-    )
+    return MinN(operand=operand, limit=limit)

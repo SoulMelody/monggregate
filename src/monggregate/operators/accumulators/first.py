@@ -58,10 +58,11 @@ See the missing data example.
 
 """
 
-
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.accumulators.accumulator import Accumulator
+
 
 class First(Accumulator):
     """
@@ -85,21 +86,18 @@ class First(Accumulator):
     NOTE: Disambiguation
     This page describes the $first aggregation accumulator.
     For the $first array operator, see $first (array operator)
-    
+
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/first/#mongodb-group-grp.-first)
     """
 
-    operand : Any
-
+    operand: Any
 
     @property
     def expression(self) -> Expression:
+        return self.express({"$first": self.operand})
 
-        return self.express({
-            "$first" : self.operand
-        })
 
-def first(operand:Any)->First:
+def first(operand: Any) -> First:
     """Returns a $first operator"""
 
     return First(operand=operand)

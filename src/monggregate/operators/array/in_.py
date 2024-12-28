@@ -31,12 +31,14 @@ or if the second argument does not resolve to an array.
 """
 
 from typing import Any
+
 from monggregate.base import Expression
 from monggregate.operators.array.array import ArrayOperator
 
+
 class In(ArrayOperator):
     """
-    Abstraction of MongoDB $in operator which returns a boolean indicating 
+    Abstraction of MongoDB $in operator which returns a boolean indicating
     whether a specified value is in an array.
 
     Attributes
@@ -61,20 +63,15 @@ class In(ArrayOperator):
     [Source](https://www.mongodb.com/docs/manual/reference/operator/aggregation/in/#mongodb-expression-exp.-in)
     """
 
-    left : Any
-    right : Any
-
+    left: Any
+    right: Any
 
     @property
     def expression(self) -> Expression:
-        return self.express({
-            "$in":[self.left, self.right]
-        })
+        return self.express({"$in": [self.left, self.right]})
 
-def in_(left:Any, right:Any)->In:
+
+def in_(left: Any, right: Any) -> In:
     """Returns a $maxN operator"""
 
-    return In(
-        left = left,
-        right = right
-    )
+    return In(left=left, right=right)
